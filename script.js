@@ -1,79 +1,26 @@
-const canvas = document.getElementById('canvas');
-const increaseBtn = document.getElementById('increase');
-const decreaseBtn = document.getElementById('decrease');
-const sizeEl = document.getElementById('size');
-const colorEl = document.getElementById('color');
-const clearEl = document.getElementById('clear');
+const header = document.getElementById('header')
+const title = document.getElementById('title')
+const excerpt = document.getElementById('excerpt')
+const profile_img = document.getElementById('profile_img')
+const name = document.getElementById('name')
+const date = document.getElementById('date')
 
-const ctx = canvas.getContext('2d');
+const animated_bgs = document.querySelectorAll('.animated-bg')
+const animated_bg_texts = document.querySelectorAll('.animated-bg-text')
 
-let size = 10
-let isPressed = false
-let color = 'black'
-let x 
-let y
+setTimeout(getData, 2500)
 
-canvas.addEventListener('mousedown', (e) => {
-    isPressed = true
+function getData() {
+  header.innerHTML =
+    '<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80" alt="" />'
+  title.innerHTML = 'Lorem ipsum dolor sit amet'
+  excerpt.innerHTML =
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore perferendis'
+  profile_img.innerHTML =
+    '<img src="https://randomuser.me/api/portraits/men/45.jpg" alt="" />'
+  name.innerHTML = 'John Doe'
+  date.innerHTML = 'Oct 08, 2020'
 
-    x = e.offsetX
-    y = e.offsetY
-})
-
-canvas.addEventListener('mousemove', (e) => {
-    if(isPressed) {
-        const x2 = e.offsetX
-        const y2 = e.offsetY
-
-        drawCircle(x2, y2)
-        drawLine(x, y, x2, y2)
-
-        x = x2
-        y = y2
-    }
-})
-
-canvas.addEventListener('mouseup', (e) => {
-    isPressed = false
-
-    x = undefined
-    y = undefined
-})
-
-function drawCircle(x, y) {
-    ctx.beginPath()
-    ctx.arc(x, y, size, 0, Math.PI *2)
-    ctx.fillStyle = color
-    ctx.fill()
+  animated_bgs.forEach((bg) => bg.classList.remove('animated-bg'))
+  animated_bg_texts.forEach((bg) => bg.classList.remove('animated-bg-text'))
 }
-function drawLine(x1, y1, x2, y2) {
-    ctx.beginPath()
-    ctx.moveTo(x1, y1)
-    ctx.lineTo(x2, y2)
-    ctx.strokeStyle = color
-    ctx.lineWidth = size * 2
-    ctx.stroke()
-}
-function updateSizeOnScreen() {
-    sizeEl.innerText = size
-}
-increaseBtn.addEventListener('click', () => {
-    size += 5
-    if(size > 50) {
-        size = 50
-    }
-
-    updateSizeOnScreen()
-})
-decreaseBtn.addEventListener('click', () => {
-    size -= 5
-    if(size < 5) {
-        size = 5
-    }
-
-    updateSizeOnScreen()
-})
-
-colorEl.addEventListener('change', (e) => color = e.target.value)
-
-clearEl.addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height))
